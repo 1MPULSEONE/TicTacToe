@@ -1,4 +1,4 @@
-package com.company;
+package tictactoe;
 import java.util.Scanner;
 
 public class Main {
@@ -6,17 +6,23 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter cells: ");
         String input = scanner.nextLine();
+        input = input.replace('_',' ');
         char[] symbols = input.toCharArray();
         int counter = 0;
+        int cordinateX = 0;
+        int cordinateY = 0;
         int counterX = 0;
         int counterO = 0;
+        int x = 0;
+        int y = 0;
         boolean xWins = false;
         boolean oWins = false;
         boolean loop = true;
         boolean loopTwo = true;
+        boolean impossible = false;
         char[][] output = new char[3][3];
-        System.out.println("---------");
         int sum = 0;
+        System.out.println("---------");
         for (int i = 0; i < 3; i++) {
             System.out.print("| ");
             for (int j = 0; j < 3; j++) {
@@ -27,8 +33,45 @@ public class Main {
             System.out.println("|");
         }
         System.out.println("---------");
+        counter = 0;
         while (loop) {
+            System.out.print("Enter the coordinates: ");
+            try {
+                String coordinatesString = scanner.nextLine();
+                String[] pieces = coordinatesString.split(" ");
+                x = Integer.parseInt(pieces[0]);
+                y = Integer.parseInt(pieces[1]);
+            } catch (NumberFormatException e) {
+                System.out.println("You should enter numbers!");
+                continue;
+            }
+            if (x > 3 || y > 3 || x < 0 || y < 0) {
+                System.out.println("Coordinates should be from 1 to 3!");
+                continue;
+            } else {
+                cordinateX = 3 - y;
+                cordinateY = x - 1;
+            }
+            if (output[3 - y][x - 1] == 'O' || output[3 - y][x - 1] == 'X' ) {
+                System.out.println("This cell is occupied! Choose another one!");
+                continue;
+            }
+            System.out.println("---------");
             for (int i = 0; i < 3; i++) {
+                System.out.print("| ");
+                for (int j = 0; j < 3; j++) {
+                    if ((output[cordinateX][cordinateY] == ' ' || output[cordinateX][cordinateY] == '_') && counter == 0 ) {
+                        output[cordinateX][cordinateY] = 'X';
+                        counter++;
+                    }
+                    System.out.print(output[i][j] + " ");
+                }
+                System.out.println("|");
+            }
+            System.out.println("---------");
+            loop = false;
+        }
+           /* for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     sum += output[i][j];
                     if (output[i][j] == 'X') {
@@ -117,5 +160,6 @@ public class Main {
                 break;
             }
         }
+            */
     }
 }
